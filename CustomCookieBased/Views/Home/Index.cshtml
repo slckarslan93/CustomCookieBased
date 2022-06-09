@@ -1,16 +1,10 @@
-﻿@model UserSignInModel
+﻿
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Custom Cokie based</title>
+        <title>Index</title>
     </head>
     <body>
-        <from asp-action="SignIn" method="post">
-            <input asp-for="@Model.UserName" />
-            <input asp-for="@Model.Password" />
-            <input type="checkbox" asp-for="@Model.Remember" /> <label>Beni Hatırla</label>
-            <div>
-                <button type="submit">Giriş Yap</button>
-            </div>
-        </from>
+       <a asp-action="Admin">Go Admin Page</a>
+       <a asp-action="Member">Go Member Page</a>
     </body>
 </html>

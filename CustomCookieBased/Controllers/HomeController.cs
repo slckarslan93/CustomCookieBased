@@ -2,6 +2,7 @@
 using CustomCookieBased.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,11 +30,11 @@ namespace CustomCookieBased.Controllers
             var user = _context.Users.SingleOrDefault(x => x.UserName == model.UserName && x.Password == model.Password);
             if (user != null)
             {
-                var roles = _context.Roles.Where(x => x.UserRoles.Any(x => x.UserId == user.Id)).Select(x=>x.Defination).ToList();
+                var roles = _context.Roles.Where(x => x.UserRoles.Any(x => x.UserId == user.Id)).Select(x => x.Defination).ToList();
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,model.UserName),
-                    
+
                 };
                 foreach (var role in roles)
                 {
@@ -57,5 +58,28 @@ namespace CustomCookieBased.Controllers
         {
             return View();
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult Admin()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Admin,Member")]
+        public IActionResult Member()
+        {
+            return View();
+        }
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index");
+        }
+
+
+
     }
 }

@@ -31,6 +31,10 @@ namespace CustomCookieBased
                 opt.Cookie.SameSite = SameSiteMode.Strict;
                 opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                 opt.ExpireTimeSpan=TimeSpan.FromDays(10);
+                opt.LoginPath = new PathString("/Home/SignIn");
+                opt.LogoutPath = new PathString("/Home/LogOut");
+                opt.AccessDeniedPath = new PathString("/Home/AccessDenied");
+
             });
             services.AddControllersWithViews();
         }
